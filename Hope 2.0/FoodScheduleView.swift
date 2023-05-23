@@ -18,10 +18,10 @@ struct FoodScheduleView: View {
     @State private var family = ""
     @State private var wrongUsername: Float = 0
     @State private var wrongPassword: Float  = 0
-    @State private var readyToNavigate : Bool = false
+    @State private var readyToNavigate20 : Bool = false
     @State var need = true
     @State private var appOp = 1
-    
+    @State var showSheet: Bool = false
     
     var body: some View {
         VStack {
@@ -118,7 +118,7 @@ struct FoodScheduleView: View {
             ZStack{
                 
                 Button {
-                    readyToNavigate = true
+                showSheet.toggle()
                 } label: {
                     Text("SUBMIT")
                         .fontWeight(.bold)
@@ -129,18 +129,62 @@ struct FoodScheduleView: View {
                 .background(Color(red: 0.426, green: 0.533, blue: 0.971))
                 .cornerRadius(10)
                 .padding(.top,50.0)
-                
-            }
-            .navigationTitle("Navigation")
-            .navigationDestination(isPresented: $readyToNavigate) {
-                HomeView()
-            }
-            .navigationBarHidden(true)
+                .sheet(isPresented: $showSheet, content: {
+                    ZStack{
+                        Text("Sign-Up Confimed")
+                            .foregroundColor(Color(red: 0.426, green: 0.533, blue: 0.971))
+                         .padding(.top, -180)
+                            .font(.system(size: 30.0))
+                            .fontWeight(.bold)
+                    }
+                        Image("check")
+                            .renderingMode(.original)
+                            .frame(width: 50,height: 50)
+                            .padding(.top, -100)
+                        Text("Name: \(username)")
+                            .padding(.leading, -125)
+                            .padding(.bottom, 10)
+                            .font(.system(size: 20.0))
+                        Text("Number of Family Members: \(family)")
+                            .multilineTextAlignment(.leading)
+                            .padding(.bottom, 10)
+                            .font(.system(size: 20.0))
+                        Text("Time: \(password)")
+                            .padding(.leading, -126)
+                            .padding(.bottom, 10)
+                            .font(.system(size: 20.0))
+                        Text("Allergies/Preferances: \(preferances)")
+                            .padding(.leading, -54)
+                            .padding(.bottom, 10)
+                            .font(.system(size: 20.0))
+                        
+                        Text("\(location)")
+                            .padding(.bottom, 10)
+                            .font(.system(size: 20.0))
+                    
+                        Button(action: {
+                            print(readyToNavigate20)
+                            readyToNavigate20 = true; showSheet = false
+                            print(readyToNavigate20)
+                        }) {
+                            Text("BACK TO HOME")
+                                .bold()
+                                .foregroundColor(Color(red: 0.431, green: 0.532, blue: 0.975))
+                        }
+                        .navigationTitle("Navigation")
+                        .navigationDestination(isPresented: $readyToNavigate20) {
+                            HomeView()
+                        }
+                        .navigationBarHidden(true)
+               
+            } //sheet end
+           
+            )}
             
+                       
         }
-
-           //Text("Selected Location: \(task)")
-            //   .font(.largeTitle)
+                       
+           
 
            }
        }
